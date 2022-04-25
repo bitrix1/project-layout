@@ -6,6 +6,7 @@ import (
 	"time"
 
 	// "github.com/golang-jwt/jwt"
+	jwt_ex "github.com/bitrix1/go-examples/internal/app/jwt_ex"
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 func Test() {
@@ -14,8 +15,10 @@ func Test() {
 
 var hmacSampleSecret []byte
 
-func RunServer() {
-	ExampleNewWithClaims_customClaimsType()
+func Run() {
+	// ExampleNewWithClaims_customClaimsType()
+	jwt_ex.RunServer()
+
 }
 func ExampleParseWithClaims_customClaimsType() {
 	tokenString := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpc3MiOiJ0ZXN0IiwiYXVkIjoic2luZ2xlIn0.QAWg1vGvnqRuCFTMcPkjZljXHh8U3L_qUjszOtQbeaA"
