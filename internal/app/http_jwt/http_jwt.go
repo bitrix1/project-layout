@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	// "github.com/golang-jwt/jwt"
-	jwt_ex "github.com/bitrix1/go-examples/internal/app/jwt_ex"
+	//jwt "github.com/golang-jwt/jwt"
+
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 func Test() {
@@ -15,9 +15,12 @@ func Test() {
 
 var hmacSampleSecret []byte
 
+
+
 func Run() {
-	// ExampleNewWithClaims_customClaimsType()
-	jwt_ex.RunServer()
+	
+	ExampleNewWithClaims_customClaimsType()
+	// jwt_ex.RunServer()
 
 }
 func ExampleParseWithClaims_customClaimsType() {
@@ -48,18 +51,22 @@ func ExampleNewWithClaims_customClaimsType() {
 		Foo string `json:"foo"`
 		jwt.StandardClaims
 	}
+	// type MyCustomClaims1 struct {
+	// 	Foo string `json:"foo"`
+	// 	jwt.StandardClaim
+	// }
 
 	// Create the claims
 	claims := MyCustomClaims{
 		"bar",
 		jwt.StandardClaims{
 			// A usual scenario is to set the expiration time relative to the current time
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)).Unix() ,
-			IssuedAt:  jwt.NewNumericDate(time.Now()).Unix(),
-			NotBefore: jwt.NewNumericDate(time.Now()).Unix(),
 			Issuer:    "test",
-			Subject:   "somebody",
-			Id: "123",
+			// ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)).Unix() ,
+			// IssuedAt:  jwt.NewNumericDate(time.Now()).Unix(),
+			// NotBefore: jwt.NewNumericDate(time.Now()).Unix(),
+			// Subject:   "somebody",
+			Id: "1",
 			// ID:        `json:"jti,1"`,
 			// ID: "sdf",
 			// Audience:  []string{"somebody_else"},
@@ -71,18 +78,53 @@ func ExampleNewWithClaims_customClaimsType() {
 		"bar",
 		jwt.StandardClaims{
 			// Also fixed dates can be used for the NumericDate
-			ExpiresAt: jwt.NewNumericDate(time.Unix(1516239022, 0)).Unix(),
 			Issuer:    "test",
+			ExpiresAt: jwt.NewNumericDate(time.Unix(1516239022, 0)).Unix(),
 		},
 	}
+	//StandardClaim not declared by package jwt
+	// claims1 := MyCustomClaims1{
+	// 	"bar",
+	// 	jwt.StandardClaim{
+	// 		ExpiresAt: jwt.NewNumericDate(time.Unix(1516239022, 0)),
+	// 		Issuer:    "test",
+	// 	},
+	// }
+
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	//StandardClaim not declared by package jwt
+	// token = jwt.NewWithClaims(jwt.SigningMethodHS256, claims1)
 	ss, err := token.SignedString(mySigningKey)
 	fmt.Printf("%v %v", ss, err)
-
+	
 	//Output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpc3MiOiJ0ZXN0IiwiZXhwIjoxNTE2MjM5MDIyfQ.xVuY2FZ_MRXMIEgVQ7J-TFtaucVFRXUzHm9LmV41goM <nil>
+	// eyJmb28iOiJiYXIiLCJpc3MiOiJ0ZXN0IiwiZXhwIjoxNTE2MjM5MDIyfQ
+	// {"foo":"bar","iss":"test","exp":1516239022}
+	// eyJmb28iOiJiYXIiLCJleHAiOjE1MTYyMzkwMjIsImlzcyI6InRlc3QifQ
+	// {"foo":"bar","exp":1516239022,"iss":"test"}
 }
 
+/*
+func bad_test(){
+	tokenString := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpc3MiOiJ0ZXN0IiwiYXVkIjoic2luZ2xlIn0.QAWg1vGvnqRuCFTMcPkjZljXHh8U3L_qUjszOtQbeaA"
+
+	type MyCustomClaims struct {
+		Foo string `json:"foo"`
+		jwt.RegisteredClaims
+	}
+
+	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("AllYourBase"), nil
+	})
+
+	if claims, ok := token.Claims.(*MyCustomClaims); ok && token.Valid {
+		fmt.Printf("%v %v", claims.Foo, claims.RegisteredClaims.Issuer)
+	} else {
+		fmt.Println(err)
+	}
+}
+*/
 func RunServer1() {
 
 	
