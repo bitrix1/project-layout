@@ -51,10 +51,10 @@ func ExampleNewWithClaims_customClaimsType() {
 		Foo string `json:"foo"`
 		jwt.StandardClaims
 	}
-	// type MyCustomClaims1 struct {
-	// 	Foo string `json:"foo"`
-	// 	jwt.StandardClaim
-	// }
+	type MyCustomClaims1 struct {
+		Foo string `json:"foo"`
+		jwt.RegisteredClaims
+	}
 
 	// Create the claims
 	claims := MyCustomClaims{
@@ -83,18 +83,18 @@ func ExampleNewWithClaims_customClaimsType() {
 		},
 	}
 	//StandardClaim not declared by package jwt
-	// claims1 := MyCustomClaims1{
-	// 	"bar",
-	// 	jwt.StandardClaim{
-	// 		ExpiresAt: jwt.NewNumericDate(time.Unix(1516239022, 0)),
-	// 		Issuer:    "test",
-	// 	},
-	// }
+	claims1 := MyCustomClaims1{
+		"bar",
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Unix(1516239022, 0)),
+			Issuer:    "test",
+		},
+	}
 
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	//StandardClaim not declared by package jwt
-	// token = jwt.NewWithClaims(jwt.SigningMethodHS256, claims1)
+	token = jwt.NewWithClaims(jwt.SigningMethodHS256, claims1)
 	ss, err := token.SignedString(mySigningKey)
 	fmt.Printf("%v %v", ss, err)
 	
@@ -103,6 +103,7 @@ func ExampleNewWithClaims_customClaimsType() {
 	// {"foo":"bar","iss":"test","exp":1516239022}
 	// eyJmb28iOiJiYXIiLCJleHAiOjE1MTYyMzkwMjIsImlzcyI6InRlc3QifQ
 	// {"foo":"bar","exp":1516239022,"iss":"test"}
+	
 }
 
 /*
