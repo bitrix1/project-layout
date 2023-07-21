@@ -1,4 +1,5 @@
-// package cmd_win
+package cmd_win
+
 // https://stackoverflow.com/questions/20234104/how-to-format-current-time-using-a-yyyymmddhhmmss-format
 // https://go.dev/doc/tutorial/handle-errors
 // https://stackoverflow.com/questions/7151261/append-to-a-file-in-go
@@ -15,7 +16,6 @@
 //
 // C:\Users\Alex1\Documents\nssm-2.24-103-gdee49fc\win64>nssm start "wuauserv_stopper"
 // wuauserv_stopper: START: Операция успешно завершена.
-package main
 
 import (
 	"bytes"
@@ -81,6 +81,25 @@ func loop_cs() (string, error) {
 	}
 }
 func main() {
+
+	for {
+		result, err := loop_cs()
+		if err == nil {
+			// fmt.Println(result)
+			color.Red(result)
+			cmd_log("Done")
+		}
+		time.Sleep(INTERVAL_SEC * time.Second)
+	}
+	// cmd_reader := bufio.NewReader(os.Stdin)
+	// s,_ := cmd_reader.ReadString('\n')
+	// fmt.Println("Done: ", s)
+
+	// bufio.NewScanner(os.Stdin)
+
+}
+
+func Main() {
 
 	for {
 		result, err := loop_cs()

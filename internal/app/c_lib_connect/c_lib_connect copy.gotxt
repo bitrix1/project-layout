@@ -1,0 +1,23 @@
+/*
+package c_lib_connect
+
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <example.h>
+// static void myPrint(char* s) {
+//   printf("%s\n", s);
+// }
+import "C"
+import (
+	"fmt"
+	"unsafe"
+)
+
+func Main() {
+	cs := C.CString("Hello from stdio")
+	C.myPrint(cs)
+	C.free(unsafe.Pointer(cs))
+	fmt.Printf("Done.")
+}
+
+*/

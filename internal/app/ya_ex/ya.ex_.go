@@ -10,13 +10,14 @@ import (
 	//"sort"
 )
 
-func main_() {
+func main() {
 	arr := []int{}
 	reader := bufio.NewReader(os.Stdin)
 	text, _ := reader.ReadString('\n')
 	text = strings.Trim(text, "\r\n")
-	//text = strings.Replace(string(text), "\n", "", -1)
+
 	s := strings.Split(text, " ")
+	// s := strings.Split("3 3 2067", " ")
 	for i := range s {
 		e, _ := strconv.Atoi(s[i])
 		arr = append(arr, e)
@@ -29,7 +30,7 @@ func main_() {
 	y = y
 	//   12 13 1970     13 12 2004
 	//fmt.Print(d, m, y)
-	if ((d <= 12 && m > 12) || (d > 12 && m <= 12)) && y >= 1970 && y <= 2069 {
+	if ((d <= 12 && m > 12) || (d > 12 && m <= 12) || (d == m && d <= 12)) && y >= 1970 && y <= 2069 {
 		fmt.Println(1)
 		// fmt.Print(n, i, j)
 		//fmt.Print(a)
